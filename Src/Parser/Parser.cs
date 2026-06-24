@@ -68,10 +68,36 @@ public class Parser
 
     private Node ParseNode()
     {
-        Advance();
-        return new ScopeNode(new());
+        var cur = Peek();
+        return cur.Type switch
+        {
+            TokenType.KRet => ParseRetNode(),
+            _ => throw new Exception($"todo: unexpected token {cur.Type}"),
+        };
     }
 
+
+    private RetNode ParseRetNode()
+    {
+        Consume(TokenType.KRet, "Expected 'ret' keyword.");
+        if(Check(TokenType.SemiColon))
+        {
+            Consume(TokenType.SemiColon);
+            return new RetNode(null);
+        }
+        var value = ParseExpr();
+        Consume(TokenType.SemiColon, "Expected ';' after expression");
+        return new RetNode(value);
+    }
+    private Expr ParseExpr()
+    {
+        var cur = Peek();
+        return cur.Type switch
+        {
+            TokenType.IntLiteral => new ConstInt(Convert.ToInt32(Consume(TokenType.IntLiteral).Value)),
+            _ => throw new Exception($"todo: unexpected token {cur.Type}"),
+        };
+    }
 
     private List<ParamNode> ParseParams()
     {
