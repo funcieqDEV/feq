@@ -28,8 +28,9 @@ public class CLI
             return;
         }
 
-        foreach (var arg in args)
+        for (int i = 0; i < args.Length; i++)
         {
+            var arg = args[i];
             switch (arg)
             {
                 case "-h":
@@ -41,14 +42,19 @@ public class CLI
                     printVersion();
                     return;
                 case "-c":
+                    if (i + 1 >= args.Length)
+                    {
+                        Console.WriteLine("Error: -c requires a file argument");
+                        return;
+                    }
+                    var filePath = args[++i];
                     Lexer lexer = new Lexer();
-                    // Process the source file
-                    var tokens = lexer.Tokenize(new SourceFile(args[1], System.IO.File.ReadAllText(args[1])));
+                    var content = System.IO.File.ReadAllText(filePath);
+                    var tokens = lexer.Tokenize(new SourceFile(filePath, content));
                     foreach (var token in tokens)
                     {
                         Console.WriteLine($"Token: {token.Type}, Value: {token.Value}");
                     }
-                    args = args.Skip(2).ToArray(); // Skip the -c and the file name
                     break;
                 default:
                     Console.WriteLine($"Unknown option: {arg}");

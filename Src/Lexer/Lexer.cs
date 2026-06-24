@@ -108,8 +108,19 @@ public class Lexer
             }
             else if (c == '/')
             {
-                Consume();
-                tokens.Add(new Token(TokenType.Slash, "/"));
+                if(PeekNext() == '/')
+                {
+                    // This is a comment, consume until the end of the line
+                    while (Peek() != '\n' && !IsAtEnd())
+                    {
+                        Consume();
+                    }
+                }
+                else
+                {
+                    Consume();
+                    tokens.Add(new Token(TokenType.Slash, "/"));
+                }
             }
             else if (c == '=')
             {

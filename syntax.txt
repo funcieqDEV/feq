@@ -11,6 +11,7 @@ fn main(argc: int, argv: **char) -> int {
 
 
     for {
+        //without break its infinite loop
         break;
     }
 
