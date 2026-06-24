@@ -1,5 +1,6 @@
 namespace Src.CLI;
 using Src.Lexer;
+using Src.Parser;
 using Src.Diagnostics;
 public class CLI
 {
@@ -51,10 +52,13 @@ public class CLI
                     Lexer lexer = new Lexer();
                     var content = System.IO.File.ReadAllText(filePath);
                     var tokens = lexer.Tokenize(new SourceFile(filePath, content));
-                    foreach (var token in tokens)
-                    {
-                        Console.WriteLine($"Token: {token.Type}, Value: {token.Value}");
-                    }
+                    // foreach (var token in tokens)
+                    // {
+                    //     Console.WriteLine($"Token: {token.Type}, Value: {token.Value}");
+                    // }
+                    Parser parser = new Parser(tokens);
+                    var ast = parser.Parse();
+                    Console.WriteLine($"AST: {ast.Children.Count} top-level nodes");
                     break;
                 default:
                     Console.WriteLine($"Unknown option: {arg}");

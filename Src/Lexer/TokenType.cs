@@ -42,4 +42,7 @@ public enum TokenType
     FloatLiteral,
     DoubleLiteral,
 
+
+    //end of file
+    EOF
 }

@@ -3,10 +3,10 @@ using Src.Lexer;
 
 public class ParamNode : Node
 {
-    public Token Name { get; set; }
+    public ConstID Name { get; set; }
     public TypeNode Type { get; set; }
 
-    public ParamNode(Token name, TypeNode type)
+    public ParamNode(ConstID name, TypeNode type)
     {
         Name = name;
         Type = type;

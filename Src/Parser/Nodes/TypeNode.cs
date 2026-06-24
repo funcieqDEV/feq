@@ -3,9 +3,9 @@ using Src.Lexer;
 
 public class TypeNode : Node
 {
-    public Token Type { get; set; }
+    public ConstID Type { get; set; }
 
-    public TypeNode(Token type)
+    public TypeNode(ConstID type)
     {
         Type = type;
     }

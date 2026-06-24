@@ -203,7 +203,7 @@ public class Lexer
                 throw new Exception($"Unexpected character: {c}");
             }
         }
-
+        tokens.Add(new Token(TokenType.EOF, ""));
         return tokens;
     }
 
