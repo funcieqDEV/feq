@@ -1,7 +1,10 @@
-﻿public class Program
+﻿using Src.CLI;
+
+public class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        var cli = new CLI();
+        cli.processArgs(args);
     }
 }
