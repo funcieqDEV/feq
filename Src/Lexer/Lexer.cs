@@ -68,6 +68,125 @@ public class Lexer
                 }
                 tokens.Add(new Token(isFloat ? TokenType.FloatLiteral : TokenType.IntLiteral, number));
             }
+            else if (c == '"')
+            {
+                Consume(); // consume the opening quote
+                string str = "";
+                while (Peek() != '"' && !IsAtEnd())
+                {
+                    str += Consume();
+                }
+                if (IsAtEnd())
+                {
+                    throw new Exception("Unterminated string literal");
+                }
+                Consume(); // consume the closing quote
+                tokens.Add(new Token(TokenType.StringLiteral, str));
+            }
+            else if (c == '+')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Plus, "+"));
+            }
+            else if (c == '-')
+            {
+                Consume();
+                if (Peek() == '>')
+                {
+                    Consume();
+                    tokens.Add(new Token(TokenType.Arrow, "->"));
+                }
+                else
+                {
+                    tokens.Add(new Token(TokenType.Minus, "-"));
+                }
+            }
+            else if (c == '*')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Star, "*"));
+            }
+            else if (c == '/')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Slash, "/"));
+            }
+            else if (c == '=')
+            {
+                Consume();
+                if (Peek() == '=')
+                {
+                    Consume();
+                    tokens.Add(new Token(TokenType.DoubleEqual, "=="));
+                }
+                else
+                {
+                    tokens.Add(new Token(TokenType.Equal, "="));
+                }
+            }
+            else if (c == '!')
+            {
+                Consume();
+                if (Peek() == '=')
+                {
+                    Consume();
+                    tokens.Add(new Token(TokenType.NotEqual, "!="));
+                }
+                else
+                {
+                    throw new Exception($"Unexpected character: {c}");
+                }
+            }
+            else if (c == '%')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Modulo, "%"));
+            }
+            else if (c == ';')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.SemiColon, ";"));
+            }
+            else if (c == ':')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Colon, ":"));
+            }
+            else if (c == ',')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.Comma, ","));
+            }
+            else if (c == '(')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.LParen, "("));
+            }
+            else if (c == ')')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.RParen, ")"));
+            }
+            else if (c == '{')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.LBrace, "{"));
+            }
+            else if (c == '}')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.RBrace, "}"));
+            }
+            else if (c == '[')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.LBracket, "["));
+            }
+            else if (c == ']')
+            {
+                Consume();
+                tokens.Add(new Token(TokenType.RBracket, "]"));
+            }
             else
             {
                 throw new Exception($"Unexpected character: {c}");
